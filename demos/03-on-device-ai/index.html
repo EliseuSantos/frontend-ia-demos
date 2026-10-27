@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IA no navegador</title>
+  </head>
+  <body>
+    <main class="page">
+      <p class="kicker">demo 03</p>
+      <h1>IA no navegador</h1>
+      <p class="lede">
+        Eu carrego um modelo pequeno de embeddings aqui mesmo, transformo um punhado de textos em vetores
+        e busco pelo cosseno. Não tem servidor de inferência. O modelo só baixa quando eu peço.
+        Os textos estão em inglês porque esse modelo foi treinado em inglês.
+      </p>
+
+      <div class="layout">
+        <section class="panel">
+          <h2>Modelo</h2>
+          <div class="actions">
+            <button id="load" data-testid="load-model" type="button">Carregar modelo</button>
+          </div>
+          <p id="progress" class="note" data-testid="progress">Ainda não carreguei nada.</p>
+          <div class="metrics">
+            <div class="metric">
+              <span>Backend</span>
+              <strong id="backend" data-testid="backend">...</strong>
+            </div>
+            <div class="metric">
+              <span>Carga</span>
+              <strong id="load-ms" data-testid="load-ms">...</strong>
+            </div>
+            <div class="metric">
+              <span>Índice</span>
+              <strong id="index-ms" data-testid="index-ms">...</strong>
+            </div>
+            <div class="metric">
+              <span>Dimensão</span>
+              <strong id="dims" data-testid="dims">...</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Busca</h2>
+          <label>
+            Consulta
+            <input id="query" data-testid="query" type="search" value="how do I stop the animation from freezing" disabled />
+          </label>
+          <div class="suggestions" id="suggestions"></div>
+          <div class="actions">
+            <button id="search" data-testid="search" type="button" disabled>Buscar</button>
+          </div>
+          <p id="query-ms" class="note" data-testid="query-ms"></p>
+          <div id="hits" data-testid="hits"></div>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

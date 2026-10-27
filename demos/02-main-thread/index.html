@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thread principal e Worker</title>
+  </head>
+  <body>
+    <main class="page">
+      <p class="kicker">demo 02</p>
+      <h1>Thread principal e Worker</h1>
+      <p class="lede">
+        O mesmo tokenizador roda dos dois lados. No thread principal a barrinha para.
+        No Worker ela continua. Eu também mostro o que acontece com a memória quando o buffer é transferido.
+      </p>
+
+      <div class="layout">
+        <section class="panel">
+          <h2>Indicador de travamento</h2>
+          <div id="track" class="track" data-testid="track"><div id="shuttle" class="shuttle"></div></div>
+          <canvas id="frames" class="frames" width="640" height="78"></canvas>
+          <div class="metrics">
+            <div class="metric">
+              <span>Frame atual</span>
+              <strong id="frame-now" data-testid="frame-now">0 ms</strong>
+            </div>
+            <div class="metric">
+              <span>Pior frame recente</span>
+              <strong id="frame-max" data-testid="frame-max">0 ms</strong>
+            </div>
+            <div class="metric">
+              <span>Long tasks</span>
+              <strong id="long-tasks" data-testid="long-tasks">0</strong>
+            </div>
+          </div>
+          <p class="note">
+            A barrinha anda no <code>requestAnimationFrame</code>, não numa animação CSS.
+            Se o thread principal ficar ocupado, o próximo frame atrasa e a barra escura mostra o pico.
+            Uma long task é uma tarefa acima de 50 ms.
+          </p>
+        </section>
+
+        <section class="panel">
+          <h2>Carga</h2>
+          <div class="controls">
+            <label>
+              Cópias do texto
+              <input id="copies" data-testid="copies" type="number" min="20" max="4000" value="280" />
+            </label>
+            <label>
+              Rodadas
+              <input id="rounds" data-testid="rounds" type="number" min="1" max="20000" value="8000" />
+            </label>
+          </div>
+          <p id="corpus" class="note" data-testid="corpus"></p>
+        </section>
+
+        <div class="split">
+          <section class="panel">
+            <h2>Thread principal <span>o trabalho e o frame disputam o mesmo thread</span></h2>
+            <button id="run-main" data-testid="run-main" type="button">Rodar aqui</button>
+            <div class="results">
+              <p>CPU <strong id="main-cpu" data-testid="main-cpu">ainda não</strong></p>
+              <p>Pior frame <strong id="main-frame" data-testid="main-frame">ainda não</strong></p>
+              <p>Long tasks na rodada <strong id="main-long" data-testid="main-long">ainda não</strong></p>
+              <p>Palavras <strong id="main-words" data-testid="main-words">ainda não</strong></p>
+              <p>Checksum <strong id="main-checksum" data-testid="main-checksum">ainda não</strong></p>
+            </div>
+          </section>
+          <section class="panel">
+            <h2>Web Worker <span>o trabalho sai do thread que pinta</span></h2>
+            <button id="run-worker" data-testid="run-worker" type="button">Rodar no worker</button>
+            <div class="results">
+              <p>CPU <strong id="worker-cpu" data-testid="worker-cpu">ainda não</strong></p>
+              <p>Pior frame <strong id="worker-frame" data-testid="worker-frame">ainda não</strong></p>
+              <p>Long tasks na rodada <strong id="worker-long" data-testid="worker-long">ainda não</strong></p>
+              <p>Palavras <strong id="worker-words" data-testid="worker-words">ainda não</strong></p>
+              <p>Checksum <strong id="worker-checksum" data-testid="worker-checksum">ainda não</strong></p>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <h2>Memória transferida</h2>
+          <div class="metrics">
+            <div class="metric">
+              <span>Bytes antes</span>
+              <strong id="transfer-before" data-testid="transfer-before">ainda não</strong>
+            </div>
+            <div class="metric">
+              <span>Bytes depois, no thread principal</span>
+              <strong id="transfer-after" data-testid="transfer-after">ainda não</strong>
+            </div>
+          </div>
+          <p class="note">
+            Eu codifico o texto num <code>Uint8Array</code> e passo o <code>ArrayBuffer</code> na lista de transferência.
+            Isso move o buffer, não copia. Por isso o <code>byteLength</code> no thread principal fica 0:
+            o worker é o dono daquela memória. A string original continua aqui. O que zerou foi a cópia UTF-8.
+            Se eu mandasse a string direto, o structured clone duplicaria os bytes nos dois lados.
+            Transferir vale a pena para buffers grandes (pixels, áudio, pesos). O resultado pequeno volta como objeto normal.
+          </p>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

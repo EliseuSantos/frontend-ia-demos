@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UI resiliente</title>
+  </head>
+  <body>
+    <main class="page">
+      <p class="kicker">demo 04</p>
+      <h1>UI resiliente</h1>
+      <p class="lede">
+        O chat é uma máquina pequena: idle, connecting, streaming, stalled, retrying, failed, done.
+        Timeout, queda, offline e fila cheia são transições, não um monte de if na tela.
+      </p>
+
+      <div class="layout">
+        <section class="panel">
+          <h2>Pedido</h2>
+          <label class="wide">
+            Prompt
+            <textarea id="prompt" data-testid="prompt">O que acontece se o stream cair no meio?</textarea>
+          </label>
+          <div class="controls">
+            <label>
+              Cenário
+              <select id="scenario" data-testid="scenario">
+                <option value="normal">Normal</option>
+                <option value="drop">Queda no meio</option>
+                <option value="stall">Pausa longa</option>
+              </select>
+            </label>
+            <label>
+              Cortar no token
+              <input id="disconnect-at" data-testid="disconnect-at" type="number" min="1" placeholder="não" />
+            </label>
+            <label>
+              Pausar no token
+              <input id="stall-at" data-testid="stall-at" type="number" min="1" placeholder="não" />
+            </label>
+            <label>
+              Pausa (ms)
+              <input id="stall-ms" data-testid="stall-ms" type="number" min="0" max="10000" value="400" />
+            </label>
+            <label>
+              Tentativas
+              <input id="attempts" data-testid="attempts" type="number" min="1" max="6" value="3" />
+            </label>
+          </div>
+          <div class="actions">
+            <button id="send" data-testid="send" type="button">Enviar</button>
+            <button id="cancel" data-testid="cancel" class="danger" type="button" disabled>Cancelar</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Sessão</h2>
+          <div class="metrics">
+            <div class="metric">
+              <span>Modo</span>
+              <strong id="mode" data-testid="mode">...</strong>
+            </div>
+            <div class="metric">
+              <span>Fase</span>
+              <strong id="phase" class="pill" data-testid="phase" data-phase="idle">idle</strong>
+            </div>
+            <div class="metric">
+              <span>Rótulo</span>
+              <strong id="phase-label" data-testid="phase-label">pronto</strong>
+            </div>
+            <div class="metric">
+              <span>Tentativa</span>
+              <strong id="attempt" data-testid="attempt">0</strong>
+            </div>
+            <div class="metric">
+              <span>Fila</span>
+              <strong id="pending" data-testid="pending">0</strong>
+            </div>
+            <div class="metric">
+              <span>Pausas de leitura</span>
+              <strong id="pauses" data-testid="pauses">0</strong>
+            </div>
+            <div class="metric">
+              <span>Rede</span>
+              <strong id="offline" data-testid="offline">online</strong>
+            </div>
+          </div>
+          <div id="output" class="output" data-testid="output" aria-live="polite"></div>
+          <p id="error" class="error" data-testid="error" role="alert"></p>
+          <pre id="log" class="log" data-testid="log"></pre>
+          <p class="note">
+            A fila segura os tokens que já chegaram e ainda não foram pintados. Se ela passa de 16, eu paro de ler a rede até cair para 6. Isso é backpressure.
+            Uma pausa maior que 1,2 s, ou uma queda, vai para retrying. A espera começa em 350 ms e dobra. Sem rede, eu vou direto para failed.
+          </p>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
