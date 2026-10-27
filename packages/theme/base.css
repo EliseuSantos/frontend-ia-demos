@@ -15,7 +15,9 @@ body {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background: var(--bg);
+  position: relative;
+  isolation: isolate;
+  background: transparent;
   color: var(--ink);
   font: 400 16px/26px var(--font-sans);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
@@ -32,6 +34,7 @@ body::before {
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: var(--space-16) var(--space-16);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 18%, #000 0%, transparent 72%);
   mask-image: radial-gradient(ellipse 90% 70% at 50% 18%, #000 0%, transparent 72%);
 }
 
