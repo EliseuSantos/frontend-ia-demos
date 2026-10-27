@@ -1,4 +1,4 @@
-import '../../../styles/base.css';
+import '@demos/theme/theme.css';
 import './style.css';
 import { JankMeter } from './jank';
 import {
@@ -140,6 +140,24 @@ function moveShuttle(now: number): void {
   shuttle.style.transform = `translateX(${x}px)`;
 }
 
+let framePalette: { ok: string; mid: string; bad: string } | null = null;
+
+function frameColor(ms: number): string {
+  if (!framePalette) {
+    const styles = getComputedStyle(document.documentElement);
+    const read = (name: string, fallback: string): string =>
+      styles.getPropertyValue(name).trim() || fallback;
+    framePalette = {
+      ok: read('--signal', '#3fd4e6'),
+      mid: read('--warning', '#ffb547'),
+      bad: read('--danger', '#ff6b5a'),
+    };
+  }
+  if (ms > 32) return framePalette.bad;
+  if (ms > 20) return framePalette.mid;
+  return framePalette.ok;
+}
+
 function drawFrames(samples: readonly number[]): void {
   if (!context) return;
   const width = canvas.width;
@@ -150,7 +168,7 @@ function drawFrames(samples: readonly number[]): void {
   for (let index = 0; index < samples.length; index += 1) {
     const ms = samples[index] ?? 0;
     const barHeight = Math.min(height, (ms / 48) * height);
-    context.fillStyle = ms > 32 ? '#c4552a' : ms > 20 ? '#e0b15a' : '#7dcec6';
+    context.fillStyle = frameColor(ms);
     context.fillRect((offset + index) * barWidth, height - barHeight, Math.max(1, barWidth - 2), barHeight);
   }
 }

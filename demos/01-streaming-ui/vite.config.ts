@@ -6,6 +6,7 @@ const pages = process.env.GITHUB_PAGES === 'true';
 
 export default defineConfig({
   base: pages ? '/frontend-ia-demos/01-streaming-ui/' : '/',
+  publicDir: path.resolve(__dirname, '../../packages/theme/public'),
   plugins: [mockStreamPlugin()],
   server: {
     port: 5173,
