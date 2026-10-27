@@ -30,14 +30,17 @@
 }
 
 .suggestions button {
-  height: 32px;
-  padding: 0 var(--space-3);
+  height: auto;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   background: var(--surface-overlay);
-  color: var(--ink-muted);
-  font: 400 12px/1 var(--font-mono);
+  color: var(--ink);
+  font: 400 13px/18px var(--font-mono);
   letter-spacing: 0.02em;
+  white-space: normal;
+  text-align: left;
 }
 
 .suggestions button:hover:not(:disabled) {

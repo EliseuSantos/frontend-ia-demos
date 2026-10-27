@@ -14,8 +14,15 @@ type FeaturePipeline = (
   options: { pooling: 'mean'; normalize: boolean },
 ) => Promise<{ data: Float32Array | ArrayLike<number> }>;
 
-export async function loadEmbedder(onProgress: (line: string) => void): Promise<LoadedEmbedder> {
-  onProgress('Carregando a biblioteca...');
+export interface ProgressUpdate {
+  line: string;
+  percent: number | null;
+}
+
+export async function loadEmbedder(
+  onProgress: (update: ProgressUpdate) => void,
+): Promise<LoadedEmbedder> {
+  onProgress({ line: 'Carregando a biblioteca...', percent: null });
   const { pipeline, env } = await import('@huggingface/transformers');
   env.allowLocalModels = false;
   const wasm = env.backends.onnx.wasm;
@@ -25,14 +32,20 @@ export async function loadEmbedder(onProgress: (line: string) => void): Promise<
 
   if (await hasWebGPU()) {
     try {
-      onProgress('Tentando WebGPU...');
+      onProgress({ line: 'Tentando WebGPU...', percent: null });
       return await create(pipeline, 'webgpu', 'fp16', onProgress);
     } catch (error) {
       console.warn('WebGPU falhou, vou para WASM.', error);
-      onProgress('WebGPU não ficou pronto. Indo para WASM...');
+      onProgress({
+        line: 'WebGPU não ficou pronto. O modelo segue em WASM, na CPU, com pesos q8. A busca continua neste aparelho. Só fica mais lenta do que na GPU.',
+        percent: null,
+      });
     }
   } else {
-    onProgress('Este navegador não ofereceu WebGPU. Usando WASM...');
+    onProgress({
+      line: 'Este navegador não ofereceu WebGPU. O modelo vai rodar em WASM, na CPU, com pesos q8. A busca continua neste aparelho. Só fica mais lenta do que na GPU.',
+      percent: null,
+    });
   }
 
   return create(pipeline, 'wasm', 'q8', onProgress);
@@ -46,7 +59,7 @@ async function create(
   ) => Promise<unknown>,
   device: 'webgpu' | 'wasm',
   dtype: 'fp16' | 'q8',
-  onProgress: (line: string) => void,
+  onProgress: (update: ProgressUpdate) => void,
 ): Promise<LoadedEmbedder> {
   const started = performance.now();
   const extractor = (await pipeline('feature-extraction', MODEL_ID, {
@@ -86,13 +99,43 @@ async function hasWebGPU(): Promise<boolean> {
   }
 }
 
-function formatProgress(report: unknown): string {
-  if (!report || typeof report !== 'object') return 'Carregando o modelo...';
-  const record = report as { status?: unknown; file?: unknown; progress?: unknown };
-  const file = typeof record.file === 'string' ? record.file : 'modelo';
-  const status = typeof record.status === 'string' ? record.status : 'carregando';
-  if (typeof record.progress === 'number') {
-    return `${status}: ${file} (${Math.round(record.progress)}%)`;
+function formatProgress(report: unknown): ProgressUpdate {
+  if (!report || typeof report !== 'object') {
+    return { line: 'Carregando o modelo...', percent: null };
   }
-  return `${status}: ${file}`;
+  const record = report as {
+    status?: unknown;
+    file?: unknown;
+    progress?: unknown;
+    loaded?: unknown;
+    total?: unknown;
+  };
+  const file = typeof record.file === 'string' ? record.file : 'modelo';
+  const status = statusLabel(typeof record.status === 'string' ? record.status : '');
+  const percent = typeof record.progress === 'number' ? Math.round(record.progress) : null;
+  const loaded = typeof record.loaded === 'number' ? record.loaded : null;
+  const total = typeof record.total === 'number' ? record.total : null;
+  const size =
+    loaded !== null && total !== null && total > 0
+      ? `${formatBytes(loaded)} de ${formatBytes(total)}`
+      : null;
+  let line = `${status}: ${file}`;
+  if (percent !== null && size) line = `${status}: ${file}, ${percent}% (${size})`;
+  else if (percent !== null) line = `${status}: ${file}, ${percent}%`;
+  else if (size) line = `${status}: ${file} (${size})`;
+  return { line, percent };
+}
+
+function statusLabel(status: string): string {
+  if (status === 'initiate') return 'Preparando';
+  if (status === 'download' || status === 'progress') return 'Baixando';
+  if (status === 'done') return 'Arquivo pronto';
+  if (status === 'ready') return 'Pronto';
+  return 'Carregando';
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${Math.round(bytes)} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }

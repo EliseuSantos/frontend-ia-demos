@@ -13,6 +13,22 @@ Abre em `http://127.0.0.1:5174`.
 
 No Pages: `https://eliseusantos.github.io/frontend-ia-demos/02-main-thread/`.
 
+## Como usar
+
+A página compara o mesmo trabalho no thread principal e num Worker.
+
+1. Deixe 280 cópias e 8000 rodadas.
+2. Aperte Comparar os dois.
+3. Olhe a barrinha, o gráfico de frames e a linha que diz quanto levou o pior frame de cada lado.
+
+Rodar aqui e Rodar no worker continuam disponíveis, se você quiser um lado só.
+
+A URL `?modo=comparar` dispara a comparação ao abrir. Também vale `?modo=principal` e `?modo=worker`.
+
+Se o sistema pede menos movimento, a barrinha fica parada. A caixa Mostrar o movimento liga ela de novo. A medição de frame continua nos dois casos.
+
+O link Ver o código abre `src/worker.ts`.
+
 ## O que você vê
 
 A barrinha anda a cada frame. O gráfico mostra o tempo do frame. Eu tokenizo um texto grande várias vezes. No botão da esquerda isso roda no thread principal e a barrinha para. No da direita o mesmo código roda num Worker e a barrinha segue.

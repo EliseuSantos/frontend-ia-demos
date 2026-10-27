@@ -15,6 +15,20 @@ Abre em `http://127.0.0.1:5173`.
 
 No GitHub Pages não existe este servidor. A página usa o mesmo gerador dentro do navegador. A URL fica `https://eliseusantos.github.io/frontend-ia-demos/01-streaming-ui/`.
 
+## Como usar
+
+A página mostra a resposta chegando em pedaços e a pintura agrupada por frame.
+
+1. Deixe a rajada em 8 e a chance de pausa em 0, ou mude os campos.
+2. Aperte Enviar.
+3. Compare "A cada token" com "Uma vez por frame". A linha embaixo resume a diferença.
+
+Redefinir volta aos valores iniciais e limpa a resposta. Cancelar corta o pedido.
+
+Dá para abrir um cenário pela URL: `?latencia=0&rajada=8&chance=0&pausa=500&corte=8`. Sem `corte`, a conexão não cai.
+
+O link Ver o código abre `src/frame-batcher.ts`.
+
 ## O que você vê
 
 Eu mando um prompt. Os tokens entram num fluxo (SSE no dev, `ReadableStream` no Pages). Dá para subir a latência, sortear pausas e cortar a conexão num token. O botão cancelar aborta o `fetch`. Se a conexão cair sozinha, eu retomo do último índice, com uma espera de 250 ms, 500 ms, 1 s e 2 s.

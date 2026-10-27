@@ -13,6 +13,20 @@ Abre em `http://127.0.0.1:5176`.
 
 No Pages o servidor some e o fluxo é gerado no navegador: `https://eliseusantos.github.io/frontend-ia-demos/04-resilient-ui/`.
 
+## Como usar
+
+A página mostra uma sessão que aguenta queda, pausa e falta de rede.
+
+1. Escolha o cenário. Normal, Queda no meio ou Pausa longa.
+2. Aperte Enviar.
+3. Compare "Sem tratar a falha" com "Com a máquina" e leia a linha de conclusão.
+
+A URL aceita `?cenario=normal`, `?cenario=queda` ou `?cenario=pausa`.
+
+Redefinir volta ao cenário normal. Cancelar corta a sessão.
+
+O link Ver o código abre `src/machine.ts`.
+
 Os testes:
 
 ```bash

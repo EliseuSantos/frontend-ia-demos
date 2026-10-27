@@ -13,6 +13,20 @@ Abre em `http://127.0.0.1:5175`.
 
 No Pages: `https://eliseusantos.github.io/frontend-ia-demos/03-on-device-ai/`.
 
+## Como usar
+
+A página carrega um modelo pequeno no navegador e busca por significado.
+
+1. Aperte Carregar modelo e espere o progresso, com o tamanho do arquivo.
+2. Se não houver WebGPU, a página explica a troca para WASM.
+3. Aperte Buscar, ou escolha uma sugestão, e leia os três textos mais próximos.
+
+A consulta pode vir na URL: `?consulta=vector%20search%20without%20a%20server`.
+
+Redefinir limpa a busca. O modelo, se já carregou, permanece na página.
+
+O link Ver o código abre `src/embed.ts`.
+
 A primeira carga baixa o `Xenova/all-MiniLM-L6-v2` do Hugging Face e o runtime WASM. O navegador guarda isso em cache. Sem rede nessa hora, o botão falha com uma mensagem clara. Não tem chave.
 
 ## O que você vê

@@ -24,7 +24,7 @@
         >
       </div>
     </header>
-    <main id="conteudo" class="page">
+    <main id="conteudo" class="page" tabindex="-1">
       <p class="kicker"><b>04</b><span aria-hidden="true">/</span> Estados<i aria-hidden="true"></i></p>
       <h1>UI <span class="ed-accent">resiliente</span></h1>
       <p class="lede">
@@ -33,6 +33,26 @@
       </p>
 
       <div class="layout">
+        <section class="panel guide" aria-labelledby="guia">
+          <h2 id="guia">Como usar</h2>
+          <p>
+            A sessão é uma máquina com fases. Queda, pausa e falta de rede são transições, com retry e uma fila.
+          </p>
+          <ol class="steps">
+            <li>Escolha Normal, Queda no meio ou Pausa longa.</li>
+            <li>Aperte Enviar.</li>
+            <li>Compare o que aconteceria sem tratamento com o que a máquina fez.</li>
+          </ol>
+          <p>A fase em inglês é o estado da máquina. O rótulo ao lado está em português.</p>
+          <a
+            class="code-link"
+            href="https://github.com/EliseuSantos/frontend-ia-demos/blob/main/demos/04-resilient-ui/src/machine.ts"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ver o código<span class="sr-only">, abre no GitHub em uma nova aba</span></a
+          >
+        </section>
+
         <section class="panel">
           <h2>Pedido</h2>
           <label class="wide">
@@ -67,6 +87,7 @@
           </div>
           <div class="actions">
             <button id="send" data-testid="send" type="button">Enviar</button>
+            <button id="reset" data-testid="reset" class="secondary" type="button">Redefinir</button>
             <button id="cancel" data-testid="cancel" class="danger" type="button" disabled>Cancelar</button>
           </div>
         </section>
@@ -103,7 +124,26 @@
               <strong id="offline" data-testid="offline">online</strong>
             </div>
           </div>
-          <div id="output" class="output" data-testid="output" aria-live="polite"></div>
+          <div class="compare">
+            <article>
+              <h3>Sem tratar a falha</h3>
+              <p id="naive-verdict" class="verdict">Aguardando</p>
+              <p id="naive-outcome">Ainda não rodei.</p>
+            </article>
+            <article>
+              <h3>Com a máquina</h3>
+              <p id="machine-verdict" class="verdict">Aguardando</p>
+              <p id="machine-outcome">Ainda não rodei.</p>
+            </article>
+          </div>
+          <div class="live" role="status" aria-live="polite" aria-atomic="true">
+            <p id="run-line" class="status-line" data-state="idle">
+              <span id="run-flag" class="status-flag">Parado</span>
+              <span id="run-state">Pronto</span>
+            </p>
+            <p id="takeaway" class="takeaway"></p>
+          </div>
+          <div id="output" class="output" data-testid="output" aria-busy="false"></div>
           <p id="error" class="error" data-testid="error" role="alert"></p>
           <pre id="log" class="log" data-testid="log"></pre>
           <p class="note">
