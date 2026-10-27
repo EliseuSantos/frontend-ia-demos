@@ -1,0 +1,52 @@
+name: Bug report
+description: A demo does not work as expected
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: demo
+    attributes:
+      label: Demo
+      options:
+        - 01 streaming UI
+        - 02 main thread and Worker
+        - 03 on-device AI (WebGPU)
+        - 04 resilient UI
+        - Other / repository setup
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. pnpm dev:streaming
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+      description: For the WebGPU demo, include the GPU if you know it.
+      placeholder: Chrome 131 on macOS 15
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Local (pnpm dev)
+        - GitHub Pages
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      render: shell
