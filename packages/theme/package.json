@@ -1,0 +1,11 @@
+{
+  "name": "@demos/theme",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./theme.css": "./theme.css"
+  },
+  "scripts": {
+    "typecheck": "node --eval 0"
+  }
+}

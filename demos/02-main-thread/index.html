@@ -1,14 +1,32 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07090a" />
+    <link rel="icon" type="image/png" href="./favicon-v3.png" />
     <title>Thread principal e Worker</title>
   </head>
-  <body>
-    <main class="page">
-      <p class="kicker">demo 02</p>
-      <h1>Thread principal e Worker</h1>
+  <body id="top">
+    <a class="skip label" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="container-content site-header__inner">
+        <a class="brand" href="https://eliseu.dev/projetos">
+          <span class="brand__mark" aria-hidden="true"></span>
+          eliseu.dev
+        </a>
+        <a
+          class="ed-btn ed-btn--outline ed-btn--mono ed-btn--sm site-header__code"
+          href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/02-main-thread"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub</a
+        >
+      </div>
+    </header>
+    <main id="conteudo" class="page">
+      <p class="kicker"><b>02</b><span aria-hidden="true">/</span> Worker<i aria-hidden="true"></i></p>
+      <h1>Thread principal e <span class="ed-accent">Worker</span></h1>
       <p class="lede">
         O mesmo tokenizador roda dos dois lados. No thread principal a barrinha para.
         No Worker ela continua. Eu também mostro o que acontece com a memória quando o buffer é transferido.
@@ -35,7 +53,7 @@
           </div>
           <p class="note">
             A barrinha anda no <code>requestAnimationFrame</code>, não numa animação CSS.
-            Se o thread principal ficar ocupado, o próximo frame atrasa e a barra escura mostra o pico.
+            Se o thread principal ficar ocupado, o próximo frame atrasa e a barra mais alta mostra o pico.
             Uma long task é uma tarefa acima de 50 ms.
           </p>
         </section>
@@ -102,6 +120,38 @@
         </section>
       </div>
     </main>
+    <footer class="site-footer">
+      <div class="container-content">
+        <div class="site-footer__top">
+          <div class="site-footer__intro">
+            <a class="brand" href="https://eliseu.dev/projetos">
+              <span class="brand__mark" aria-hidden="true"></span>
+              eliseu.dev
+            </a>
+            <p>Demos de interface no navegador. Cada página mostra uma ideia, com o código no GitHub.</p>
+          </div>
+          <nav aria-label="Rodapé">
+            <p class="label">Páginas</p>
+            <ul>
+              <li><a href="https://eliseusantos.github.io/frontend-ia-demos/">Índice</a></li>
+              <li>
+                <a
+                  href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/02-main-thread"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Código</a
+                >
+              </li>
+              <li><a href="https://eliseu.dev/projetos">eliseu.dev/projetos</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-footer__bottom meta">
+          <span>© 2026 Eliseu Santos</span>
+          <a class="site-footer__up" href="#top">Topo</a>
+        </div>
+      </div>
+    </footer>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

@@ -2,7 +2,7 @@
 
 Eu juntei aqui quatro demos curtos para uma série de textos sobre interface e modelo no navegador. Cada pasta mostra uma ideia só. Dá para abrir, rodar e ver o ponto em cerca de um minuto.
 
-Não tem framework de UI. O código é TypeScript estrito, com Vite e pouca dependência. Os testes rodam no GitHub Actions em todo push.
+Não tem framework de UI. O código é TypeScript estrito, com Vite e pouca dependência. O visual fica em `packages/theme`: os tokens, as fontes e o cabeçalho do eliseu.dev. Os testes rodam no GitHub Actions em todo push.
 
 ## Os quatro demos
 

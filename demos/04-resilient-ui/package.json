@@ -9,7 +9,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@demos/mock-stream": "workspace:*"
+    "@demos/mock-stream": "workspace:*",
+    "@demos/theme": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.19.0",
