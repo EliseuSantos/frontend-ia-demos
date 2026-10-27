@@ -1,4 +1,4 @@
-import '../../../styles/base.css';
+import '@demos/theme/theme.css';
 import { launchSession, streamMode, type RunnerParams } from './runner';
 import type { Phase, SessionState } from './machine';
 

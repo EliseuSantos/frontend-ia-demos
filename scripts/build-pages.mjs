@@ -5,6 +5,7 @@ const demos = [
   {
     dir: 'demos/01-streaming-ui',
     out: '01-streaming-ui',
+    index: '01',
     title: 'Streaming de tokens',
     lesson:
       'A resposta chega em pedaços. Eu pinto o DOM uma vez por frame e retomo se a conexão cair.',
@@ -12,6 +13,7 @@ const demos = [
   {
     dir: 'demos/02-main-thread',
     out: '02-main-thread',
+    index: '02',
     title: 'Thread principal e Worker',
     lesson:
       'O mesmo trabalho pesado trava a animação no thread principal e deixa o frame estável dentro de um Worker.',
@@ -19,6 +21,7 @@ const demos = [
   {
     dir: 'demos/03-on-device-ai',
     out: '03-on-device-ai',
+    index: '03',
     title: 'IA no navegador',
     lesson:
       'Embedding e busca por cosseno rodam no browser, com WebGPU quando existe e WASM no restante.',
@@ -26,14 +29,24 @@ const demos = [
   {
     dir: 'demos/04-resilient-ui',
     out: '04-resilient-ui',
+    index: '04',
     title: 'UI resiliente',
     lesson:
       'O chat é uma máquina de estados. Timeout, queda, offline e backpressure são transições testáveis.',
   },
 ];
 
+const repo = 'https://github.com/EliseuSantos/frontend-ia-demos';
+
 rmSync('site', { recursive: true, force: true });
-mkdirSync('site', { recursive: true });
+mkdirSync('site/theme', { recursive: true });
+
+for (const file of ['theme.css', 'fonts.css', 'tokens.css', 'base.css']) {
+  cpSync(`packages/theme/${file}`, `site/theme/${file}`);
+}
+cpSync('packages/theme/fonts', 'site/theme/fonts', { recursive: true });
+cpSync('packages/theme/assets', 'site/theme/assets', { recursive: true });
+cpSync('packages/theme/public/favicon-v3.png', 'site/favicon-v3.png');
 
 for (const demo of demos) {
   execSync('pnpm build', {
@@ -46,44 +59,74 @@ for (const demo of demos) {
 
 const cards = demos
   .map(
-    (demo) => `<article class="card">
-      <p class="kicker">${demo.out}</p>
-      <h2><a href="./${demo.out}/">${demo.title}</a></h2>
-      <p>${demo.lesson}</p>
-    </article>`,
+    (demo, position) => `<a class="ed-card${position === 0 ? ' ed-card--featured' : ''}" href="./${demo.out}/">
+      <p class="ed-card__meta">${demo.index} / ${demo.out}</p>
+      <h2 class="ed-card__title">${demo.title}</h2>
+      <p class="ed-card__body">${demo.lesson}</p>
+    </a>`,
   )
   .join('\n');
 
+const footerLinks = demos
+  .map((demo) => `<li><a href="./${demo.out}/">${demo.title}</a></li>`)
+  .join('\n');
+
 const html = `<!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#07090a" />
+  <link rel="icon" type="image/png" href="./favicon-v3.png" />
+  <link rel="preload" as="font" type="font/woff2" href="./theme/fonts/space-grotesk-latin.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="./theme/fonts/inter-latin.woff2" crossorigin />
+  <link rel="stylesheet" href="./theme/theme.css" />
   <title>Demos de frontend com IA</title>
-  <style>
-    :root { color-scheme: light; --ink: #1f1a14; --muted: #5e564c; --line: #ddd4c6; --bg: #f3efe6; --card: #fffdf8; --accent: #0c5c56; }
-    * { box-sizing: border-box; }
-    body { margin: 0; font: 18px/1.5 "Avenir Next", "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
-    main { max-width: 880px; margin: 0 auto; padding: 48px 20px 72px; }
-    h1 { font-size: 2.2rem; line-height: 1.15; margin: 0 0 12px; }
-    .lede { color: var(--muted); max-width: 62ch; }
-    .grid { display: grid; gap: 16px; margin-top: 32px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
-    .kicker { font: 12px/1 ui-monospace, Menlo, Consolas, monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
-    h2 { font-size: 1.3rem; margin: 0 0 8px; }
-    a { color: inherit; }
-    p { margin: 0; }
-  </style>
 </head>
-<body>
-  <main>
-    <p class="kicker">eliseu santos</p>
-    <h1>Demos de frontend com IA</h1>
+<body id="top">
+  <a class="skip label" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header">
+    <div class="container-content site-header__inner">
+      <a class="brand" href="https://eliseu.dev/projetos">
+        <span class="brand__mark" aria-hidden="true"></span>
+        eliseu.dev
+      </a>
+      <a class="ed-btn ed-btn--outline ed-btn--mono ed-btn--sm site-header__code" href="${repo}" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </header>
+  <main id="conteudo" class="page">
+    <p class="kicker"><b>01</b><span aria-hidden="true">/</span> Projetos<i aria-hidden="true"></i></p>
+    <h1>Demos de frontend com <span class="ed-accent-signal">IA</span></h1>
     <p class="lede">Quatro páginas curtas. Cada uma mostra uma ideia: streaming de tokens, thread principal, modelo local e uma máquina de estados para quando a rede falha.</p>
-    <div class="grid">
+    <div class="demo-grid">
       ${cards}
     </div>
   </main>
+  <footer class="site-footer">
+    <div class="container-content">
+      <div class="site-footer__top">
+        <div class="site-footer__intro">
+          <a class="brand" href="https://eliseu.dev/projetos">
+            <span class="brand__mark" aria-hidden="true"></span>
+            eliseu.dev
+          </a>
+          <p>Demos de interface no navegador. Cada página mostra uma ideia, com o código no GitHub.</p>
+        </div>
+        <nav aria-label="Rodapé">
+          <p class="label">Páginas</p>
+          <ul>
+            ${footerLinks}
+            <li><a href="${repo}" target="_blank" rel="noopener noreferrer">Código</a></li>
+            <li><a href="https://eliseu.dev/projetos">eliseu.dev/projetos</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="site-footer__bottom meta">
+        <span>© 2026 Eliseu Santos</span>
+        <a class="site-footer__up" href="#top">Topo</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
 `;

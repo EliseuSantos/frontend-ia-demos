@@ -1,0 +1,9 @@
+/*
+ * Tema compartilhado dos demos, no visual do eliseu.dev.
+ * Tokens com os mesmos nomes e valores de tokens.json e src/app.css.
+ * O design system define um tema só, o escuro. Não há paleta clara para alternar.
+ * Fontes: woff2 self-hosted, os mesmos arquivos de https://eliseu.dev/fonts/.
+ */
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./base.css";

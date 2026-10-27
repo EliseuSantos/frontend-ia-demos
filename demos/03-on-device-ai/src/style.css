@@ -1,14 +1,48 @@
 .hit {
-  padding: 12px 0;
-  border-top: 1px solid var(--line);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--border);
 }
 
-.hit h3 { margin: 0 0 4px; font-size: 1rem; }
+.hit h3 {
+  margin: 0 0 var(--space-1);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 26px;
+}
 
-.hit p { margin: 0; color: var(--muted); }
+.hit p {
+  margin: 0;
+  color: var(--ink-muted);
+}
 
-.score { font: 13px/1.4 var(--mono); color: var(--accent); }
+.score {
+  margin-bottom: var(--space-1);
+  color: var(--signal);
+  font: 400 12px/18px var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
 
-.suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
 
-.suggestions button { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.suggestions button {
+  height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface-overlay);
+  color: var(--ink-muted);
+  font: 400 12px/1 var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.suggestions button:hover:not(:disabled) {
+  border-color: var(--signal);
+  background: var(--signal-a12);
+  color: var(--signal);
+  box-shadow: none;
+}

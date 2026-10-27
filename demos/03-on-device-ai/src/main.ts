@@ -1,4 +1,4 @@
-import '../../../styles/base.css';
+import '@demos/theme/theme.css';
 import './style.css';
 import { ARTICLES, type Article } from './docs';
 import { MODEL_ID, loadEmbedder, type LoadedEmbedder } from './embed';

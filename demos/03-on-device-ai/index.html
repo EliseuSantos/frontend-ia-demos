@@ -1,14 +1,32 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07090a" />
+    <link rel="icon" type="image/png" href="./favicon-v3.png" />
     <title>IA no navegador</title>
   </head>
-  <body>
-    <main class="page">
-      <p class="kicker">demo 03</p>
-      <h1>IA no navegador</h1>
+  <body id="top">
+    <a class="skip label" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="container-content site-header__inner">
+        <a class="brand" href="https://eliseu.dev/projetos">
+          <span class="brand__mark" aria-hidden="true"></span>
+          eliseu.dev
+        </a>
+        <a
+          class="ed-btn ed-btn--outline ed-btn--mono ed-btn--sm site-header__code"
+          href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/03-on-device-ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub</a
+        >
+      </div>
+    </header>
+    <main id="conteudo" class="page">
+      <p class="kicker"><b>03</b><span aria-hidden="true">/</span> Navegador<i aria-hidden="true"></i></p>
+      <h1><span class="ed-accent-signal">IA</span> no navegador</h1>
       <p class="lede">
         Eu carrego um modelo pequeno de embeddings aqui mesmo, transformo um punhado de textos em vetores
         e busco pelo cosseno. Não tem servidor de inferência. O modelo só baixa quando eu peço.
@@ -57,6 +75,38 @@
         </section>
       </div>
     </main>
+    <footer class="site-footer">
+      <div class="container-content">
+        <div class="site-footer__top">
+          <div class="site-footer__intro">
+            <a class="brand" href="https://eliseu.dev/projetos">
+              <span class="brand__mark" aria-hidden="true"></span>
+              eliseu.dev
+            </a>
+            <p>Demos de interface no navegador. Cada página mostra uma ideia, com o código no GitHub.</p>
+          </div>
+          <nav aria-label="Rodapé">
+            <p class="label">Páginas</p>
+            <ul>
+              <li><a href="https://eliseusantos.github.io/frontend-ia-demos/">Índice</a></li>
+              <li>
+                <a
+                  href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/03-on-device-ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Código</a
+                >
+              </li>
+              <li><a href="https://eliseu.dev/projetos">eliseu.dev/projetos</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-footer__bottom meta">
+          <span>© 2026 Eliseu Santos</span>
+          <a class="site-footer__up" href="#top">Topo</a>
+        </div>
+      </div>
+    </footer>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

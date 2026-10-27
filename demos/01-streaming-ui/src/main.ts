@@ -1,4 +1,4 @@
-import '../../../styles/base.css';
+import '@demos/theme/theme.css';
 import './style.css';
 import { modeLabel, startStream, streamMode, type StreamStatus, type StreamView } from './session';
 
