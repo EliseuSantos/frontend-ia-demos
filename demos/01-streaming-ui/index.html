@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Streaming de tokens</title>
+  </head>
+  <body>
+    <main class="page">
+      <p class="kicker">demo 01</p>
+      <h1>Streaming de tokens</h1>
+      <p class="lede">
+        A resposta não chega pronta. Eu leio um fluxo, mostro os pedaços e, se a conexão cair,
+        retomo do último token. O DOM só é atualizado uma vez por frame.
+      </p>
+
+      <div class="layout">
+        <section class="panel">
+          <h2>Pedido</h2>
+          <label class="wide">
+            Prompt
+            <textarea id="prompt" data-testid="prompt">Explique, em poucas frases, por que uma interface não deve esperar o modelo terminar.</textarea>
+          </label>
+          <div class="controls">
+            <label>
+              Latência (ms)
+              <input id="latency" data-testid="latency" type="number" min="0" max="2000" value="15" />
+            </label>
+            <label>
+              Rajada
+              <input id="burst" data-testid="burst" type="number" min="1" max="40" value="3" />
+            </label>
+            <label>
+              Chance de pausa (%)
+              <input id="stall-chance" data-testid="stall-chance" type="number" min="0" max="100" value="12" />
+            </label>
+            <label>
+              Pausa (ms)
+              <input id="stall-ms" data-testid="stall-ms" type="number" min="0" max="10000" value="500" />
+            </label>
+            <label>
+              Cortar no token
+              <input id="disconnect-at" data-testid="disconnect-at" type="number" min="1" placeholder="não" />
+            </label>
+          </div>
+          <div class="actions">
+            <button id="send" data-testid="send" type="button">Enviar</button>
+            <button id="cancel" data-testid="cancel" class="danger" type="button" disabled>Cancelar</button>
+          </div>
+          <p id="provider-note" class="note" hidden>
+            As falhas configuráveis valem para o gerador local. Com provedor externo eu recomeço o pedido inteiro se a conexão cair.
+          </p>
+        </section>
+
+        <section class="panel">
+          <h2>Resposta</h2>
+          <div class="metrics">
+            <div class="metric">
+              <span>Modo</span>
+              <strong id="mode" data-testid="mode">...</strong>
+            </div>
+            <div class="metric">
+              <span>Estado</span>
+              <strong id="status" class="pill" data-testid="status" data-phase="idle">pronto</strong>
+            </div>
+            <div class="metric">
+              <span>Tentativa</span>
+              <strong id="attempt" data-testid="attempt">0</strong>
+            </div>
+            <div class="metric">
+              <span>Tokens</span>
+              <strong id="received" data-testid="received">0</strong>
+            </div>
+            <div class="metric">
+              <span>Escritas no DOM</span>
+              <strong id="writes" data-testid="writes">0</strong>
+            </div>
+          </div>
+          <div id="output" class="output" data-testid="output" aria-live="polite"></div>
+          <p id="error" class="error" data-testid="error" role="alert"></p>
+          <p class="note">
+            Tokens conta o que chegou. Escritas no DOM conta quantas vezes eu pintei a tela.
+            Com rajada maior que 1, o segundo número fica menor: eu junto os pedaços e escrevo no próximo frame.
+            Cancelar usa AbortController. Um corte no meio dispara retry com espera que dobra.
+          </p>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
