@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { expectAccessible, focusByKeyboard, startFromSkipLink } from './a11y';
 
 const url = 'http://127.0.0.1:4173';
 
@@ -31,6 +32,23 @@ test('retoma depois de um corte no meio', async ({ page }) => {
   await expect(page.getByTestId('status')).toHaveText('concluído');
   await expect(page.getByTestId('attempt')).toHaveText('2');
   await expect(page.getByTestId('output')).toContainText('chave');
+});
+
+test('não tem violação grave de acessibilidade', async ({ page }) => {
+  await page.goto(url);
+  await expectAccessible(page);
+});
+
+test('o teclado envia o pedido', async ({ page }) => {
+  await page.goto(url);
+  await page.getByTestId('latency').fill('0');
+  await page.getByTestId('stall-chance').fill('0');
+  await page.getByTestId('burst').fill('8');
+  await startFromSkipLink(page);
+  await focusByKeyboard(page, 'send');
+  await page.keyboard.press('Enter');
+  await expect(page.getByTestId('status')).toHaveText('concluído');
+  await expectAccessible(page);
 });
 
 test('cancelar aborta o fluxo', async ({ page }) => {

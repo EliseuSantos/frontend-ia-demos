@@ -24,7 +24,7 @@
         >
       </div>
     </header>
-    <main id="conteudo" class="page">
+    <main id="conteudo" class="page" tabindex="-1">
       <p class="kicker"><b>01</b><span aria-hidden="true">/</span> Streaming<i aria-hidden="true"></i></p>
       <h1>Streaming de <span class="ed-accent">tokens</span></h1>
       <p class="lede">
@@ -33,6 +33,25 @@
       </p>
 
       <div class="layout">
+        <section class="panel guide" aria-labelledby="guia">
+          <h2 id="guia">Como usar</h2>
+          <p>
+            O texto chega em pedaços. Eu junto esses pedaços e pinto a tela uma vez por frame, em vez de uma vez por token.
+          </p>
+          <ol class="steps">
+            <li>Deixe a rajada em 8, ou aumente, e a chance de pausa em 0.</li>
+            <li>Aperte Enviar.</li>
+            <li>Compare as escritas de cada token com as escritas de cada frame.</li>
+          </ol>
+          <p>Olhe os dois cartões e a frase de conclusão quando o estado ficar concluído.</p>
+          <a
+            class="code-link"
+            href="https://github.com/EliseuSantos/frontend-ia-demos/blob/main/demos/01-streaming-ui/src/frame-batcher.ts"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ver o código<span class="sr-only">, abre no GitHub em uma nova aba</span></a
+          >
+        </section>
         <section class="panel">
           <h2>Pedido</h2>
           <label class="wide">
@@ -46,11 +65,11 @@
             </label>
             <label>
               Rajada
-              <input id="burst" data-testid="burst" type="number" min="1" max="40" value="3" />
+              <input id="burst" data-testid="burst" type="number" min="1" max="40" value="8" />
             </label>
             <label>
               Chance de pausa (%)
-              <input id="stall-chance" data-testid="stall-chance" type="number" min="0" max="100" value="12" />
+              <input id="stall-chance" data-testid="stall-chance" type="number" min="0" max="100" value="0" />
             </label>
             <label>
               Pausa (ms)
@@ -63,6 +82,7 @@
           </div>
           <div class="actions">
             <button id="send" data-testid="send" type="button">Enviar</button>
+            <button id="reset" data-testid="reset" class="secondary" type="button">Redefinir</button>
             <button id="cancel" data-testid="cancel" class="danger" type="button" disabled>Cancelar</button>
           </div>
           <p id="provider-note" class="note" hidden>
@@ -94,7 +114,26 @@
               <strong id="writes" data-testid="writes">0</strong>
             </div>
           </div>
-          <div id="output" class="output" data-testid="output" aria-live="polite"></div>
+          <div class="compare">
+            <article>
+              <h3>A cada token</h3>
+              <p id="naive-verdict" class="verdict">Uma pintura por pedaço</p>
+              <p><strong id="naive-writes">0</strong> <span class="unit">escritas</span></p>
+            </article>
+            <article>
+              <h3>Uma vez por frame</h3>
+              <p id="batched-verdict" class="verdict">Uma pintura por frame</p>
+              <p><strong id="batched-writes">0</strong> <span class="unit">escritas</span></p>
+            </article>
+          </div>
+          <div class="live" role="status" aria-live="polite" aria-atomic="true">
+            <p id="run-line" class="status-line" data-state="idle">
+              <span id="run-flag" class="status-flag">Parado</span>
+              <span id="run-state">Pronto</span>
+            </p>
+            <p id="takeaway" class="takeaway"></p>
+          </div>
+          <div id="output" class="output" data-testid="output" aria-busy="false"></div>
           <p id="error" class="error" data-testid="error" role="alert"></p>
           <p class="note">
             Tokens conta o que chegou. Escritas no DOM conta quantas vezes eu pintei a tela.

@@ -24,7 +24,7 @@
         >
       </div>
     </header>
-    <main id="conteudo" class="page">
+    <main id="conteudo" class="page" tabindex="-1">
       <p class="kicker"><b>03</b><span aria-hidden="true">/</span> Navegador<i aria-hidden="true"></i></p>
       <h1><span class="ed-accent-signal">IA</span> no navegador</h1>
       <p class="lede">
@@ -34,10 +34,34 @@
       </p>
 
       <div class="layout">
-        <section class="panel">
+        <section class="panel guide" aria-labelledby="guia">
+          <h2 id="guia">Como usar</h2>
+          <p>
+            Um modelo pequeno de embeddings roda nesta página. A busca compara vetores aqui, sem servidor de inferência.
+          </p>
+          <ol class="steps">
+            <li>Aperte Carregar modelo e acompanhe o tamanho do download.</li>
+            <li>Se não houver WebGPU, leia a troca para WASM.</li>
+            <li>Aperte Buscar e veja os três textos mais próximos.</li>
+          </ol>
+          <p>Os textos estão em inglês porque o modelo foi treinado em inglês. A tela continua em português.</p>
+          <a
+            class="code-link"
+            href="https://github.com/EliseuSantos/frontend-ia-demos/blob/main/demos/03-on-device-ai/src/embed.ts"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ver o código<span class="sr-only">, abre no GitHub em uma nova aba</span></a
+          >
+        </section>
+
+        <section class="panel" id="modelo" aria-busy="false">
           <h2>Modelo</h2>
           <div class="actions">
             <button id="load" data-testid="load-model" type="button">Carregar modelo</button>
+            <button id="reset" data-testid="reset" class="secondary" type="button">Redefinir</button>
+          </div>
+          <div id="meter" class="meter" hidden>
+            <div class="meter__track" aria-hidden="true"><div id="meter-bar" class="meter__bar"></div></div>
           </div>
           <p id="progress" class="note" data-testid="progress">Ainda não carreguei nada.</p>
           <div class="metrics">
@@ -60,7 +84,7 @@
           </div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="busca" aria-busy="false">
           <h2>Busca</h2>
           <label>
             Consulta
@@ -68,7 +92,26 @@
           </label>
           <div class="suggestions" id="suggestions"></div>
           <div class="actions">
-            <button id="search" data-testid="search" type="button" disabled>Buscar</button>
+            <button id="search" data-testid="search" class="secondary" type="button" disabled>Buscar</button>
+          </div>
+          <div class="compare">
+            <article>
+              <h3>No servidor</h3>
+              <p id="server-verdict" class="verdict">Aguardando</p>
+              <p><strong id="server-requests">ainda não</strong> <span class="unit">pedidos</span></p>
+            </article>
+            <article>
+              <h3>Neste navegador</h3>
+              <p id="local-verdict" class="verdict">Aguardando</p>
+              <p><strong id="local-ms">ainda não</strong> <span class="unit">ms</span></p>
+            </article>
+          </div>
+          <div class="live" role="status" aria-live="polite" aria-atomic="true">
+            <p id="run-line" class="status-line" data-state="idle">
+              <span id="run-flag" class="status-flag">Parado</span>
+              <span id="run-state">Pronto</span>
+            </p>
+            <p id="takeaway" class="takeaway"></p>
           </div>
           <p id="query-ms" class="note" data-testid="query-ms"></p>
           <div id="hits" data-testid="hits"></div>

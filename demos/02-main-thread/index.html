@@ -24,7 +24,7 @@
         >
       </div>
     </header>
-    <main id="conteudo" class="page">
+    <main id="conteudo" class="page" tabindex="-1">
       <p class="kicker"><b>02</b><span aria-hidden="true">/</span> Worker<i aria-hidden="true"></i></p>
       <h1>Thread principal e <span class="ed-accent">Worker</span></h1>
       <p class="lede">
@@ -33,10 +33,38 @@
       </p>
 
       <div class="layout">
+        <section class="panel guide" aria-labelledby="guia">
+          <h2 id="guia">Como usar</h2>
+          <p>
+            O mesmo trabalho roda no thread principal e num Worker. No primeiro a tela trava. No segundo a barrinha continua.
+          </p>
+          <ol class="steps">
+            <li>Deixe 280 cópias e 8000 rodadas.</li>
+            <li>Aperte Comparar os dois.</li>
+            <li>Leia o pior frame de cada lado e a frase embaixo.</li>
+          </ol>
+          <p>
+            O gráfico mostra o tempo de cada frame. Ciano até 20 ms, âmbar até 32 ms, vermelho acima de 32 ms. As palavras repetem o que a cor diz.
+          </p>
+          <a
+            class="code-link"
+            href="https://github.com/EliseuSantos/frontend-ia-demos/blob/main/demos/02-main-thread/src/worker.ts"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ver o código<span class="sr-only">, abre no GitHub em uma nova aba</span></a
+          >
+        </section>
+
         <section class="panel">
           <h2>Indicador de travamento</h2>
-          <div id="track" class="track" data-testid="track"><div id="shuttle" class="shuttle"></div></div>
-          <canvas id="frames" class="frames" width="640" height="78"></canvas>
+          <div id="track" class="track" data-testid="track" aria-hidden="true"><div id="shuttle" class="shuttle"></div></div>
+          <canvas id="frames" class="frames" width="640" height="78" role="img" aria-labelledby="frames-summary"></canvas>
+          <p id="frames-summary" class="note">Ainda sem frames medidos.</p>
+          <ul class="legend">
+            <li><span class="swatch swatch--ok" aria-hidden="true"></span> até 20 ms, fluido</li>
+            <li><span class="swatch swatch--mid" aria-hidden="true"></span> até 32 ms, apertado</li>
+            <li><span class="swatch swatch--bad" aria-hidden="true"></span> acima de 32 ms, travado</li>
+          </ul>
           <div class="metrics">
             <div class="metric">
               <span>Frame atual</span>
@@ -71,12 +99,24 @@
             </label>
           </div>
           <p id="corpus" class="note" data-testid="corpus"></p>
+          <label class="check">
+            <input id="show-motion" type="checkbox" checked />
+            Mostrar o movimento
+          </label>
+          <p id="motion-note" class="note" hidden>
+            O sistema pediu menos movimento, então a barrinha começa parada. A medição de frame continua. Marque a caixa para ver o movimento mesmo assim.
+          </p>
+          <div class="actions">
+            <button id="compare" data-testid="compare" type="button">Comparar os dois</button>
+            <button id="reset" data-testid="reset" class="secondary" type="button">Redefinir</button>
+          </div>
         </section>
 
-        <div class="split">
+        <div class="split" id="comparison" aria-busy="false">
           <section class="panel">
             <h2>Thread principal <span>o trabalho e o frame disputam o mesmo thread</span></h2>
-            <button id="run-main" data-testid="run-main" type="button">Rodar aqui</button>
+            <p id="main-verdict" class="verdict">Aguardando</p>
+            <button id="run-main" data-testid="run-main" class="secondary" type="button">Rodar aqui</button>
             <div class="results">
               <p>CPU <strong id="main-cpu" data-testid="main-cpu">ainda não</strong></p>
               <p>Pior frame <strong id="main-frame" data-testid="main-frame">ainda não</strong></p>
@@ -87,7 +127,8 @@
           </section>
           <section class="panel">
             <h2>Web Worker <span>o trabalho sai do thread que pinta</span></h2>
-            <button id="run-worker" data-testid="run-worker" type="button">Rodar no worker</button>
+            <p id="worker-verdict" class="verdict">Aguardando</p>
+            <button id="run-worker" data-testid="run-worker" class="secondary" type="button">Rodar no worker</button>
             <div class="results">
               <p>CPU <strong id="worker-cpu" data-testid="worker-cpu">ainda não</strong></p>
               <p>Pior frame <strong id="worker-frame" data-testid="worker-frame">ainda não</strong></p>
@@ -96,6 +137,13 @@
               <p>Checksum <strong id="worker-checksum" data-testid="worker-checksum">ainda não</strong></p>
             </div>
           </section>
+        </div>
+        <div class="live" role="status" aria-live="polite" aria-atomic="true">
+          <p id="run-line" class="status-line" data-state="idle">
+            <span id="run-flag" class="status-flag">Parado</span>
+            <span id="run-state">Pronto</span>
+          </p>
+          <p id="takeaway" class="takeaway"></p>
         </div>
 
         <section class="panel">
