@@ -87,7 +87,7 @@ const html = `<!doctype html>
   <a class="skip label" href="#conteudo">Pular para o conteúdo</a>
   <header class="site-header">
     <div class="container-content site-header__inner">
-      <a class="brand" href="https://eliseu.dev/projetos">
+      <a class="brand" href="https://eliseu.dev/projects">
         <span class="brand__mark" aria-hidden="true"></span>
         eliseu.dev
       </a>
@@ -106,7 +106,7 @@ const html = `<!doctype html>
     <div class="container-content">
       <div class="site-footer__top">
         <div class="site-footer__intro">
-          <a class="brand" href="https://eliseu.dev/projetos">
+          <a class="brand" href="https://eliseu.dev/projects">
             <span class="brand__mark" aria-hidden="true"></span>
             eliseu.dev
           </a>
@@ -117,7 +117,7 @@ const html = `<!doctype html>
           <ul>
             ${footerLinks}
             <li><a href="${repo}" target="_blank" rel="noopener noreferrer">Código</a></li>
-            <li><a href="https://eliseu.dev/projetos">eliseu.dev/projetos</a></li>
+            <li><a href="https://eliseu.dev/projects">eliseu.dev/projects</a></li>
           </ul>
         </nav>
       </div>
