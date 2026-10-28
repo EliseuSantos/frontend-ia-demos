@@ -102,6 +102,10 @@ O workflow `.github/workflows/pages.yml` publica cada demo como página estátic
 
 O workflow não consegue ligar o Pages sozinho se a opção ainda estiver desligada no repositório. Se o deploy não rodar, eu ativo em Settings, Pages, Source: GitHub Actions.
 
+## Decisões de arquitetura
+
+[ADR-001](docs/adr/0001-mock-stream-compartilhado.md) registra por que os demos 01 e 04 usam o mesmo gerador de fluxo no servidor de desenvolvimento e no navegador. O texto está em inglês.
+
 ## Licença
 
 MIT. O texto está em `LICENSE`.
