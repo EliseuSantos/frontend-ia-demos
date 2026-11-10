@@ -34,6 +34,14 @@ const demos = [
     lesson:
       'O chat é uma máquina de estados. Timeout, queda, offline e backpressure são transições testáveis.',
   },
+  {
+    dir: 'demos/05-hidden-text',
+    out: '05-hidden-text',
+    index: '05',
+    title: 'Texto escondido',
+    lesson:
+      'Um extrator determinístico acha instruções que CSS e HTML escondem de uma pessoa. N conta essa diferença.',
+  },
 ];
 
 const repo = 'https://github.com/EliseuSantos/frontend-ia-demos';
@@ -97,7 +105,7 @@ const html = `<!doctype html>
   <main id="conteudo" class="page">
     <p class="kicker"><b>01</b><span aria-hidden="true">/</span> Projetos<i aria-hidden="true"></i></p>
     <h1>Demos de frontend com <span class="ed-accent-signal">IA</span></h1>
-    <p class="lede">Quatro páginas curtas. Cada uma mostra uma ideia: streaming de tokens, thread principal, modelo local e uma máquina de estados para quando a rede falha.</p>
+    <p class="lede">Cinco páginas curtas. Cada uma mostra uma ideia: streaming de tokens, thread principal, modelo local, uma máquina de estados para quando a rede falha, e texto escondido que um leitor de agente ainda encontra.</p>
     <div class="demo-grid">
       ${cards}
     </div>
