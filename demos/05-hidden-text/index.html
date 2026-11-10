@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07090a" />
+    <link rel="icon" type="image/png" href="./favicon-v3.png" />
+    <title>Texto escondido</title>
+  </head>
+  <body id="top">
+    <a class="skip label" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="container-content site-header__inner">
+        <a class="brand" href="https://eliseu.dev/projects">
+          <span class="brand__mark" aria-hidden="true"></span>
+          eliseu.dev
+        </a>
+        <a
+          class="ed-btn ed-btn--outline ed-btn--mono ed-btn--sm site-header__code"
+          href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/05-hidden-text"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub</a
+        >
+      </div>
+    </header>
+    <main id="conteudo" class="page" tabindex="-1">
+      <p class="kicker"><b>05</b><span aria-hidden="true">/</span> Extrator<i aria-hidden="true"></i></p>
+      <h1>Texto <span class="ed-accent">escondido</span></h1>
+      <p class="lede">
+        Uma página de exemplo esconde instruções com CSS e HTML. O painel humano mostra o que uma pessoa vê.
+        O leitor de agente é um extrator determinístico: ele conta quantas dessas instruções passam batido.
+      </p>
+
+      <div class="layout">
+        <section class="panel guide" aria-labelledby="guia">
+          <h2 id="guia">Como usar</h2>
+          <p>
+            O leitor não é um modelo ao vivo. Ele é um extrator fixo de HTML e CSS. N é quantas técnicas ligadas
+            o agente acha e a extração visível não.
+          </p>
+          <ol class="steps">
+            <li>Deixe as oito técnicas ligadas e leia o placar N de 8.</li>
+            <li>Desligue uma técnica e veja N cair na hora.</li>
+            <li>Compare o painel da pessoa com a lista que o extrator montou.</li>
+          </ol>
+          <p>
+            A URL aceita <code>?tecnicas=cor,opacidade</code> ou <code>?tecnica=fora</code>. Redefinir liga as oito de novo.
+          </p>
+          <a
+            class="code-link"
+            href="https://github.com/EliseuSantos/frontend-ia-demos/blob/main/demos/05-hidden-text/src/extractor.ts"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ver o código<span class="sr-only">, abre no GitHub em uma nova aba</span></a
+          >
+        </section>
+
+        <section class="panel score-panel" aria-labelledby="placar">
+          <h2 id="placar">Placar</h2>
+          <div class="score" aria-live="polite">
+            <strong id="score" class="score__value" data-testid="score" data-n="0">0 de 8</strong>
+            <span class="score__label">técnicas que o agente vê e a pessoa não</span>
+          </div>
+          <ul id="technique-list" class="technique-list"></ul>
+          <div class="actions">
+            <button id="reset" data-testid="reset" class="secondary" type="button">Redefinir</button>
+          </div>
+        </section>
+
+        <div class="panes">
+          <section class="panel" aria-labelledby="humano">
+            <h2 id="humano">O que a pessoa vê</h2>
+            <p class="human-empty">
+              A prévia abaixo isola a página de exemplo. Estilos escondidos ficam dentro do iframe e não quebram o contraste do demo.
+            </p>
+            <iframe
+              id="preview"
+              class="preview-frame"
+              data-testid="preview"
+              title="Página de exemplo com texto escondido"
+              sandbox=""
+            ></iframe>
+          </section>
+
+          <section class="panel agent-pane" aria-labelledby="agente">
+            <h2 id="agente">O que o leitor de agente extrai</h2>
+            <ul id="agent-list" class="agent-list" data-testid="agent-list" data-empty="true"></ul>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container-content">
+        <div class="site-footer__top">
+          <div class="site-footer__intro">
+            <a class="brand" href="https://eliseu.dev/projects">
+              <span class="brand__mark" aria-hidden="true"></span>
+              eliseu.dev
+            </a>
+            <p>Demos de interface no navegador. Cada página mostra uma ideia, com o código no GitHub.</p>
+          </div>
+          <nav aria-label="Rodapé">
+            <p class="label">Páginas</p>
+            <ul>
+              <li><a href="https://eliseusantos.github.io/frontend-ia-demos/">Índice</a></li>
+              <li>
+                <a
+                  href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/05-hidden-text"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Código</a
+                >
+              </li>
+              <li><a href="https://eliseu.dev/projects">eliseu.dev/projects</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-footer__bottom meta">
+          <span>© 2026 Eliseu Santos</span>
+          <a class="site-footer__up" href="#top">Topo</a>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

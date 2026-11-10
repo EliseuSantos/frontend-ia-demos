@@ -1,11 +1,24 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, type Page } from '@playwright/test';
 
-export async function expectAccessible(page: Page): Promise<void> {
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-    .analyze();
-  const bad = results.violations.filter((violation) => violation.impact === 'serious' || violation.impact === 'critical');
+export async function expectAccessible(
+  page: Page,
+  options?: { exclude?: string[] },
+): Promise<void> {
+  let builder = new AxeBuilder({ page }).withTags([
+    'wcag2a',
+    'wcag2aa',
+    'wcag21a',
+    'wcag21aa',
+    'wcag22aa',
+  ]);
+  for (const selector of options?.exclude ?? []) {
+    builder = builder.exclude(selector);
+  }
+  const results = await builder.analyze();
+  const bad = results.violations.filter(
+    (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+  );
   const summary = bad
     .map((violation) => {
       const targets = violation.nodes.map((node) => node.target.join(' ')).join('\n');

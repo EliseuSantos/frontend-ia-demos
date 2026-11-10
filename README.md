@@ -1,10 +1,10 @@
 # Demos de frontend com IA
 
-Eu juntei aqui quatro demos curtos para uma série de textos sobre interface e modelo no navegador. Cada pasta mostra uma ideia só. Dá para abrir, rodar e ver o ponto em cerca de um minuto.
+Eu juntei aqui cinco demos curtos para uma série de textos sobre interface e modelo no navegador. Cada pasta mostra uma ideia só. Dá para abrir, rodar e ver o ponto em cerca de um minuto.
 
 Não tem framework de UI. O código é TypeScript estrito, com Vite e pouca dependência. O visual fica em `packages/theme`: os tokens, as fontes e o cabeçalho do eliseu.dev. Os testes rodam no GitHub Actions em todo push.
 
-## Os quatro demos
+## Os cinco demos
 
 ### 1. Streaming de tokens
 
@@ -54,6 +54,18 @@ Um chat em streaming com as fases idle, connecting, streaming, stalled, retrying
 
 Lição: eu trato falha como transição de estado, não como um if perdido na interface.
 
+### 5. Texto escondido
+
+Pasta: `demos/05-hidden-text`
+
+Comando: `pnpm dev:hidden-text`
+
+URL: https://eliseusantos.github.io/frontend-ia-demos/05-hidden-text/
+
+Uma página de exemplo esconde oito instruções com CSS e HTML. O painel humano mostra a prévia. O leitor de agente é um extrator determinístico: N conta quantas técnicas ligadas ele acha e a extração visível não.
+
+Lição: um dump de HTML não vê a página como uma pessoa. Sem modelo e sem rede.
+
 ## Como rodar
 
 Eu uso Node 22 e pnpm 10.
@@ -64,6 +76,7 @@ pnpm dev:streaming
 pnpm dev:main-thread
 pnpm dev:on-device
 pnpm dev:resilient
+pnpm dev:hidden-text
 ```
 
 Cada comando sobe um Vite. Os demos 01 e 04 expõem `/api/stream` no dev server. Não precisa de chave.
@@ -99,6 +112,7 @@ O workflow `.github/workflows/pages.yml` publica cada demo como página estátic
 - https://eliseusantos.github.io/frontend-ia-demos/02-main-thread/
 - https://eliseusantos.github.io/frontend-ia-demos/03-on-device-ai/
 - https://eliseusantos.github.io/frontend-ia-demos/04-resilient-ui/
+- https://eliseusantos.github.io/frontend-ia-demos/05-hidden-text/
 
 O workflow não consegue ligar o Pages sozinho se a opção ainda estiver desligada no repositório. Se o deploy não rodar, eu ativo em Settings, Pages, Source: GitHub Actions.
 
