@@ -42,6 +42,14 @@ const demos = [
     lesson:
       'Um extrator determinístico acha instruções que CSS e HTML escondem de uma pessoa. N conta essa diferença.',
   },
+  {
+    dir: 'demos/06-mcp-events',
+    out: '06-mcp-events',
+    index: '06',
+    title: 'MCP: eventos e polling',
+    lesson:
+      'A mesma janela simula polling e eventos MCP. O placar mostra pedidos evitados e latência sem rede.',
+  },
 ];
 
 const repo = 'https://github.com/EliseuSantos/frontend-ia-demos';
@@ -105,7 +113,7 @@ const html = `<!doctype html>
   <main id="conteudo" class="page">
     <p class="kicker"><b>01</b><span aria-hidden="true">/</span> Projetos<i aria-hidden="true"></i></p>
     <h1>Demos de frontend com <span class="ed-accent-signal">IA</span></h1>
-    <p class="lede">Cinco páginas curtas. Cada uma mostra uma ideia: streaming de tokens, thread principal, modelo local, uma máquina de estados para quando a rede falha, e texto escondido que um leitor de agente ainda encontra.</p>
+    <p class="lede">Seis páginas curtas. Cada uma mostra uma ideia: streaming de tokens, thread principal, modelo local, uma máquina de estados para quando a rede falha, texto escondido que um leitor de agente ainda encontra, e eventos MCP contra polling.</p>
     <div class="demo-grid">
       ${cards}
     </div>

@@ -49,5 +49,12 @@ export default defineConfig({
       reuseExistingServer: reuse,
       timeout: 60_000,
     },
+    {
+      command:
+        'pnpm --filter @demos/mcp-events exec vite --host 127.0.0.1 --port 4179 --strictPort',
+      url: 'http://127.0.0.1:4179',
+      reuseExistingServer: reuse,
+      timeout: 60_000,
+    },
   ],
 });

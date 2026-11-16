@@ -20,6 +20,7 @@ pnpm dev:main-thread   # 02: main thread vs Web Worker
 pnpm dev:on-device     # 03: in-browser AI with WebGPU
 pnpm dev:resilient     # 04: resilient UI
 pnpm dev:hidden-text   # 05: hidden text vs agent extractor
+pnpm dev:mcp-events    # 06: MCP events vs polling
 ```
 
 No API key is needed. Demo 01 uses a local token generator unless you set `demos/01-streaming-ui/.env.local` (see the README). Never commit that file or any key.
