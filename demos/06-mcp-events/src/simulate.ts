@@ -50,12 +50,12 @@ export const DEFAULT_SCENARIO: Readonly<SimulateInput> = {
 /** Locked DEFAULT_SCENARIO scoreboard (seed 42, 2s, 3 resources, 60s). */
 export const DEFAULT_SCENARIO_SCORE = {
   pollingRequests: 93,
-  pollingWasted: 92,
-  pollingMeanLatencyMs: 1213,
-  pollingMaxLatencyMs: 1213,
+  pollingWasted: 90,
+  pollingMeanLatencyMs: 540,
+  pollingMaxLatencyMs: 834,
   eventsRequests: 3,
   eventsWasted: 0,
-  eventsMeanLatencyMs: 223,
+  eventsMeanLatencyMs: 599 / 3,
   eventsMaxLatencyMs: 223,
   requestsAvoided: 90,
   requestsAvoidedPct: 96.77,
@@ -88,16 +88,21 @@ function roundPct(numerator: number, denominator: number): number {
 }
 
 /**
- * Draw one change plan per resource. changeTimeMs is drawn from
- * [0, 2 * windowMs] so some land after the window (treated as never).
+ * Draw one change plan per resource. changeTimeMs is drawn uniformly
+ * in [floor(0.05*windowMs), floor(0.95*windowMs)] inclusive (integer ms),
+ * so every resource
+ * changes once inside the window by default. Edge cases (outside window,
+ * never, t=0) are covered via simulateWithChanges in tests.
  * Delivery delay is always in [50, 250] inclusive.
  */
 export function planChanges(input: SimulateInput): ResourceChange[] {
   const rng = mulberry32(input.seed);
   const changes: ResourceChange[] = [];
-  const span = input.windowMs * 2 + 1;
+  const lo = Math.floor(input.windowMs * 0.05);
+  const hi = Math.floor(input.windowMs * 0.95);
+  const span = hi - lo + 1;
   for (let resourceId = 0; resourceId < input.resources; resourceId += 1) {
-    const changeTimeMs = Math.floor(rng() * span);
+    const changeTimeMs = lo + Math.floor(rng() * span);
     const type: ChangeType = rng() < 0.75 ? 'deployment.succeeded' : 'deployment.error';
     const deliveryDelayMs = 50 + Math.floor(rng() * 201);
     changes.push({ resourceId, changeTimeMs, type, deliveryDelayMs });

@@ -10,9 +10,9 @@ test('padrao na hora trava o placar do cenario DEFAULT', async ({ page }) => {
   await expect(page.getByTestId('score-polling-requests')).toHaveText('93');
   await expect(page.getByTestId('score-events-requests')).toHaveText('3');
   await expect(page.getByTestId('score-avoided')).toHaveText('90 (96.77%)');
-  await expect(page.getByTestId('score-polling-wasted')).toHaveText('92');
-  await expect(page.getByTestId('score-polling-mean')).toHaveText('1213 ms');
-  await expect(page.getByTestId('score-events-mean')).toHaveText('223 ms');
+  await expect(page.getByTestId('score-polling-wasted')).toHaveText('90');
+  await expect(page.getByTestId('score-polling-mean')).toHaveText('540 ms');
+  await expect(page.getByTestId('score-events-mean')).toHaveText('200 ms');
   await expect(page.getByTestId('polling-log')).not.toHaveAttribute('data-empty', 'true');
   await expect(page.getByTestId('events-log')).not.toHaveAttribute('data-empty', 'true');
 });
