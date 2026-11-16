@@ -117,7 +117,7 @@ function fillLog(list: HTMLOListElement, entries: TimelineEntry[]): void {
 
 function formatEntry(entry: TimelineEntry): string {
   const base = `t=${entry.timeMs}ms r${entry.resourceId} ${entry.kind} ${entry.detail}`;
-  return entry.wasted ? `${base} (desperdicio)` : base;
+  return entry.wasted ? `${base} (desperdício)` : base;
 }
 
 function writeScore(result: SimulateResult): void {
