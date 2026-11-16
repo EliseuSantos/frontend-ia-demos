@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07090a" />
+    <link rel="icon" type="image/png" href="./favicon-v3.png" />
+    <title>MCP: eventos e polling</title>
+  </head>
+  <body id="top">
+    <a class="skip label" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="container-content site-header__inner">
+        <a class="brand" href="https://eliseu.dev/projects">
+          <span class="brand__mark" aria-hidden="true"></span>
+          eliseu.dev
+        </a>
+        <a
+          class="ed-btn ed-btn--outline ed-btn--mono ed-btn--sm site-header__code"
+          href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/06-mcp-events"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub</a
+        >
+      </div>
+    </header>
+    <main id="conteudo" class="page" tabindex="-1">
+      <p class="kicker"><b>06</b><span aria-hidden="true">/</span> MCP<i aria-hidden="true"></i></p>
+      <h1>Eventos MCP <span class="ed-accent">vs polling</span></h1>
+      <p class="lede">
+        Um cliente de agente espera N deploys no MCP. A mesma janela e o mesmo gerador determinístico
+        comparam polling periódico com inscrição em eventos. Sem rede e sem chave.
+      </p>
+
+      <div class="layout">
+        <section class="panel guide" aria-labelledby="guia">
+          <h2 id="guia">Como usar</h2>
+          <p>
+            Ajuste semente, intervalo e N. Executar na hora calcula o placar com a função pura
+            <code>simulate</code>. Executar anima um relógio simulado mais rápido que o tempo real.
+          </p>
+          <ol class="steps">
+            <li>Deixe o cenário padrão e rode Executar na hora.</li>
+            <li>Compare pedidos, desperdício e latência nos dois painéis.</li>
+            <li>Mude o intervalo e veja o polling crescer; os eventos ficam em N assinaturas.</li>
+          </ol>
+          <p>
+            A URL aceita <code>?seed=42&amp;interval=2000&amp;n=3</code>. Redefinir volta ao padrão.
+          </p>
+          <a
+            class="code-link"
+            href="https://github.com/EliseuSantos/frontend-ia-demos/blob/main/demos/06-mcp-events/src/simulate.ts"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ver o código<span class="sr-only">, abre no GitHub em uma nova aba</span></a
+          >
+        </section>
+
+        <section class="panel controls-panel" aria-labelledby="controles" data-testid="controls">
+          <h2 id="controles">Controles</h2>
+          <div class="controls">
+            <label class="field">
+              <span>Semente</span>
+              <input id="seed" data-testid="seed" type="number" inputmode="numeric" />
+            </label>
+            <label class="field">
+              <span>Intervalo</span>
+              <select id="interval" data-testid="interval">
+                <option value="1000">1 s</option>
+                <option value="2000">2 s</option>
+                <option value="5000">5 s</option>
+                <option value="10000">10 s</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Recursos (N)</span>
+              <input id="resources" data-testid="resources" type="number" min="1" max="12" inputmode="numeric" />
+            </label>
+          </div>
+          <div class="actions">
+            <button id="run" data-testid="run" type="button">Executar</button>
+            <button id="instant" data-testid="instant" class="secondary" type="button">
+              Executar na hora
+            </button>
+            <button id="reset" data-testid="reset" class="secondary" type="button">Redefinir</button>
+          </div>
+          <p class="clock" data-testid="clock" aria-live="polite">Relógio: 0 ms</p>
+        </section>
+
+        <section class="panel score-panel" aria-labelledby="placar">
+          <h2 id="placar">Placar</h2>
+          <div class="scoreboard" data-testid="score" data-ready="false">
+            <div class="score-grid">
+              <div>
+                <span class="score__label">Pedidos polling</span>
+                <strong data-testid="score-polling-requests">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Pedidos eventos</span>
+                <strong data-testid="score-events-requests">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Evitados</span>
+                <strong data-testid="score-avoided">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Desperdício polling</span>
+                <strong data-testid="score-polling-wasted">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Latência média polling</span>
+                <strong data-testid="score-polling-mean">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Latência máx. polling</span>
+                <strong data-testid="score-polling-max">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Latência média eventos</span>
+                <strong data-testid="score-events-mean">-</strong>
+              </div>
+              <div>
+                <span class="score__label">Latência máx. eventos</span>
+                <strong data-testid="score-events-max">-</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="panes">
+          <section class="panel" aria-labelledby="polling" data-testid="panel-polling">
+            <h2 id="polling">Polling</h2>
+            <ol
+              id="polling-log"
+              class="log"
+              data-testid="polling-log"
+              data-empty="true"
+              tabindex="0"
+            ></ol>
+          </section>
+          <section class="panel" aria-labelledby="events" data-testid="panel-events">
+            <h2 id="events">Eventos</h2>
+            <ol
+              id="events-log"
+              class="log"
+              data-testid="events-log"
+              data-empty="true"
+              tabindex="0"
+            ></ol>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="container-content">
+        <div class="site-footer__top">
+          <div class="site-footer__intro">
+            <a class="brand" href="https://eliseu.dev/projects">
+              <span class="brand__mark" aria-hidden="true"></span>
+              eliseu.dev
+            </a>
+            <p>Demos de interface no navegador. Cada página mostra uma ideia, com o código no GitHub.</p>
+          </div>
+          <nav aria-label="Rodapé">
+            <p class="label">Páginas</p>
+            <ul>
+              <li><a href="https://eliseusantos.github.io/frontend-ia-demos/">Índice</a></li>
+              <li>
+                <a
+                  href="https://github.com/EliseuSantos/frontend-ia-demos/tree/main/demos/06-mcp-events"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Código</a
+                >
+              </li>
+              <li><a href="https://eliseu.dev/projects">eliseu.dev/projects</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="site-footer__bottom meta">
+          <span>© 2026 Eliseu Santos</span>
+          <a class="site-footer__up" href="#top">Topo</a>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

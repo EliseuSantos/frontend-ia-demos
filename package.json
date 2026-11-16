@@ -12,6 +12,7 @@
     "dev:on-device": "pnpm --filter @demos/on-device-ai dev",
     "dev:resilient": "pnpm --filter @demos/resilient-ui dev",
     "dev:hidden-text": "pnpm --filter @demos/hidden-text dev",
+    "dev:mcp-events": "pnpm --filter @demos/mcp-events dev",
     "typecheck": "pnpm -r --sort typecheck && tsc -p tsconfig.json --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
